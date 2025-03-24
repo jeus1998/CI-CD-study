@@ -9,13 +9,14 @@ jobs:
   Deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: SSH 사용하여 EC2 접속하기 # (github actions 라이브러리)
+      - name: SSH 사용하여 EC2 접속하기
+        # (github actions 라이브러리)
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USERNAME }}
-          key:  ${{ secrets.EC2_PRIVATE_KEY }}
-          script_stop: true
+          host: ${{ secrets.EC2_HOST }} # EC2의 주소
+          username: ${{ secrets.EC2_USERNAME }} # EC2 접속 username
+          key:  ${{ secrets.EC2_PRIVATE_KEY }} # EC2의 Key 파일의 내부 텍스트
+          script_stop: true # 아래 script 중 실패하는 명령이 하나라도 있으면 실패로 처리
           script:
             cd /home/ubuntu/CI-CD-study
             git pull origin main 
