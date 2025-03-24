@@ -1,0 +1,27 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  Deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH 사용하여 EC2 접속하기 # (github actions 라이브러리)
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key:  ${{ secrets.EC2_PRIVATE_KEY }}
+          script_stop: true
+          script:
+            cd /home/ubuntu/CI-CD-study
+            git pull origin main 
+            ./gradlew clean build
+            # 실행 중인 프로세스가 있으면 종료 (서버가 실행 중이 아니어도 에러 없이 통과)
+            sudo fuser -k -n tcp 8080 || true
+            # Spring Boot 애플리케이션을 백그라운드에서 실행하고, 로그를 output.log 기록
+            # 표준 출력(stdout)과 에러(stderr) output.log 기록 
+            nohup java -jar build/libs/*SNAPSHOT.jar > ./output.log 2>&1 &
