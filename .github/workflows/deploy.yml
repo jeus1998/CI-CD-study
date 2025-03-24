@@ -18,6 +18,7 @@ jobs:
           script_stop: true # 실패하면 전체 실패 처리
           script: |
             cd /home/ubuntu/CI-CD-study
+            
             # 최신 코드 가져오기
             git pull origin main 
             
@@ -30,7 +31,7 @@ jobs:
             # 종료 대기 (3초)
             sleep 3
             
-            # 애플리케이션 실행
+             # *SNAPSHOT.jar 끝나는 빌드 파일로 애플리케이션 실행 output.log 로그 기록 
             nohup java -jar build/libs/*SNAPSHOT.jar > ./output.log 2>&1 &
             
             # 배포 완료
