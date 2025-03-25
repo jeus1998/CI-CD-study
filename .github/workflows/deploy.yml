@@ -42,12 +42,17 @@ jobs:
         run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.tar.gz s3://study-server/$GITHUB_SHA.tar.gz
 
       - name: Code Deploy 활용하여 EC2에 프로젝트 코드 배포
-        run: aws deploy create-deployment
+        run: |
+          aws deploy create-deployment
+          
           # CodeDeploy 애플리케이션 이름 
           --application.name study-server
+          
           # CodeDeploy 배포 구성 
           --deployment-config-name CodeDeployDefault.AllAtOnce
+          
           # CodeDeploy 배포 그룹 이름 
           --deployment-group-name Production
+          
           # S3 버켓 이름,파일 이름 
           --s3-location bucket=study-server,bundleType=tgz,key=$GITHUB_SHA.tar.gz
