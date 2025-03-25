@@ -1,0 +1,20 @@
+version: 0.0
+os: linux
+
+files:
+    # S3에 저장한 파일들 중 destination(AWS EC2)으로 이동시킬 대상을 지정
+    # /: S3 저장한 전체 파일
+  - source: /
+    # EC2의 어떤 경로에 저장할 지 지정
+    destination: /home/ubuntu/backend-server
+
+permissions:
+  - object: /
+    owner: ubuntu
+    group: ubuntu
+
+hooks:
+  ApplicationStart:
+    - location: scripts/start-server.sh
+      timeout: 60
+      runas: ubuntu
