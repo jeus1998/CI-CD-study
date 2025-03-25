@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class AppController {
     @GetMapping("/")
     public String index(){
-        return "Hello Github Actions with CodeDeploy & S3";
+        return "Hello Github Actions with Docker & ECR";
     }
 }
