@@ -39,7 +39,7 @@ jobs:
         run: docker build -t backend-server .
 
       - name: Docker 이미지에 Tag 붙이기
-        run: docker tag instagram-server ${{ steps.login-ecr.outputs.registry }}/backend-server:latest
+        run: docker tag backend-server ${{ steps.login-ecr.outputs.registry }}/backend-server:latest
 
       - name: ECR Docker 이미지 Push
         run: docker push ${{ steps.login-ecr.outputs.registry }}/backend-server:latest
